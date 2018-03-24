@@ -9,7 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.js"></script>
-  
+
   <title>Friend Finder</title>
 </head>
 
@@ -19,7 +19,7 @@
     <h1>Your Survey Questions</h1>
   </div>
 
-  <div class="container">
+  <div class="container" id="everything">
     <h2>About You</h2>
     <div class="row">
       <div class="col-md-4">
@@ -42,7 +42,7 @@
   <div class="container">
 
     <h3>Question 1</h3>
-    <h4>the actual question goes here</h4>
+    <h4>I enjoy meeting new people.</h4>
 
     <select class="chosen-select" id="q1">
       <option value></option>
@@ -52,9 +52,9 @@
       <option value="4">4</option>
       <option value="5">5 (Strongly Agree)</option>
     </select>
-    
+
     <h3>Question 2</h3>
-    <h4>the actual question goes here</h4>
+    <h4>I enjoy repairing things.</h4>
 
     <select class="chosen-select" id="q1">
       <option value></option>
@@ -66,7 +66,7 @@
     </select>
 
     <h3>Question 3</h3>
-    <h4>the actual question goes here</h4>
+    <h4>I like helping people.</h4>
 
     <select class="chosen-select" id="q1">
       <option value></option>
@@ -78,7 +78,7 @@
     </select>
 
     <h3>Question 4</h3>
-    <h4>the actual question goes here</h4>
+    <h4>I sometimes make mistakes.</h4>
 
     <select class="chosen-select" id="q1">
       <option value></option>
@@ -90,7 +90,7 @@
     </select>
 
     <h3>Question 5</h3>
-    <h4>the actual question goes here</h4>
+    <h4>I'm easily disappointed.</h4>
 
     <select class="chosen-select" id="q1">
       <option value></option>
@@ -102,7 +102,7 @@
     </select>
 
     <h3>Question 6</h3>
-    <h4>the actual question goes here</h4>
+    <h4>I like try out new activities.</h4>
 
     <select class="chosen-select" id="q1">
       <option value></option>
@@ -114,7 +114,7 @@
     </select>
 
     <h3>Question 7</h3>
-    <h4>the actual question goes here</h4>
+    <h4>I consider other people’s feelings.</h4>
 
     <select class="chosen-select" id="q1">
       <option value></option>
@@ -124,9 +124,9 @@
       <option value="4">4</option>
       <option value="5">5 (Strongly Agree)</option>
     </select>
-    
+
     <h3>Question 8</h3>
-    <h4>the actual question goes here</h4>
+    <h4>I am a night person.</h4>
 
     <select class="chosen-select" id="q1">
       <option value></option>
@@ -138,7 +138,7 @@
     </select>
 
     <h3>Question 9</h3>
-    <h4>the actual question goes here</h4>
+    <h4>I am modest about what I have achieved.</h4>
 
     <select class="chosen-select" id="q1">
       <option value></option>
@@ -150,7 +150,7 @@
     </select>
 
     <h3>Question 10</h3>
-    <h4>the actual question goes here</h4>
+    <h4>I enjoy being outdoors</h4>
 
     <select class="chosen-select" id="q1">
       <option value></option>
@@ -188,9 +188,15 @@
 
   </div>
 
+  <div class="container" id="match-view">
+    <h2>Matched!!</h2>
+    <h4 id="friendName"></h4>
+    <img id="friendImg" src="" width=2 00px>
+  </div>
+
   <script type="text/javascript">
     $(document).ready(function () {
-      
+
       $(".chosen-select").chosen();
 
       $("#submit").on("click", function () {
@@ -213,7 +219,7 @@
         }
 
         if (validateForm()) {
-          
+
           friendData()
         }
       });
@@ -249,11 +255,16 @@
         $("q9").val("");
         $("q10").val("");
 
-        $.post("/api/friends", friendObj)
-          .then(function (data) {
-            console.log(data);
-            alert("Your profile has been added!!");
-          });
+        $.post("/api/friends", friendObj, function (data) {
+          console.log(data);
+          alert("Your profile has been added!!");
+
+          $("#friendName").html(data.name);
+          $("#friendImg").attr("src".data.profilePic);
+        });
+
+        $("everything").hide();
+        $("match-view").show();
       }
     });
 
